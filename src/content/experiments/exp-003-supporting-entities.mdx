@@ -1,0 +1,219 @@
+---
+id: exp-003
+number: 3
+title: "Can supporting entities strengthen a canonical organization?"
+researchQuestion: "Does deliberately publishing and cross-linking a supporting entity chain (George Barbu → barbu.es → InfoWebPlus → client websites) increase AI systems' correct recognition of InfoWebPlus as the canonical organization hub?"
+status: Planned
+startsOn: 2026-09-01
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - entity-graph
+  - supporting-entities
+  - canonicalization
+  - knowledge-graph
+relatedEntities:
+  - George Barbu
+  - barbu.es
+  - InfoWebPlus
+summary: >
+  Tests whether a transparent, truthful entity chain centered on George Barbu,
+  barbu.es, InfoWebPlus, and attributable client sites improves canonical
+  organization recognition in AI answers. Protocol only; no results claimed.
+---
+
+## Motivation
+
+Entity SEO practice often asserts that surrounding entities reinforce a
+canonical node. Public, falsifiable tests of that claim in AI Search contexts
+are scarce.
+
+### Target relationship under study
+
+```text
+George Barbu (https://barbu.es/about/)
+    ↓
+barbu.es (https://barbu.es/)
+    ↓
+InfoWebPlus (https://infowebplus.com/)
+    ↓
+Client websites (attribution-capable properties only)
+```
+
+### Canonical URLs (from barbu.es preferred sources)
+
+| Node | Canonical URL |
+| --- | --- |
+| Person (George Barbu) | https://barbu.es/about/ |
+| Knowledge platform | https://barbu.es/ |
+| Cornerstone essay | https://barbu.es/writing/founder-how-i-think/ |
+| Current focus | https://barbu.es/now/ |
+| Selected work | https://barbu.es/work/ |
+| Career narrative | https://barbu.es/experience/ |
+| Contact | https://barbu.es/contact/ · george@barbu.es |
+| Resume | https://george.barbu.es/ |
+| Portfolio archive | https://portfolio.barbu.es/ |
+| Organization (InfoWebPlus) | https://infowebplus.com/ |
+| LinkedIn | https://www.linkedin.com/in/barbugeorge/ |
+| GitHub | https://github.com/george-barbu-es |
+| Machine-readable index | https://barbu.es/llms.txt |
+
+### Facts
+
+- George Barbu is founder of InfoWebPlus (stated on [barbu.es/about](https://barbu.es/about/) and [barbu.es/llms.txt](https://barbu.es/llms.txt)).
+- `barbu.es` is the Person Knowledge Platform; InfoWebPlus is the Organization ([infowebplus.com](https://infowebplus.com/)). The roles are kept separate on purpose. Relationship vocabulary: [`founder`](https://schema.org/founder), [`sameAs`](https://schema.org/sameAs).
+- Client websites are independent properties; inclusion requires explicit,
+  legitimate attribution.
+
+### Assumptions
+
+- AI systems form organization “hubs” partly from co-occurrence and link/
+  entity adjacency - not solely from a single homepage.
+- Supporting entities help when they are consistent and non-spammy.
+
+### Unknowns
+
+- Whether client-site mentions help or dilute the hub.
+- Whether person-first vs organization-first probing changes outcomes.
+
+---
+
+## Hypothesis
+
+**H₀:** Strengthening cross-links and consistent naming across the chain does
+not improve hub recognition metrics for InfoWebPlus relative to baseline.
+
+**H₁:** After documented reinforcement of the George Barbu → barbu.es →
+InfoWebPlus → clients chain, AI systems more often (a) name InfoWebPlus as
+the organization hub and (b) correctly situate George Barbu and barbu.es
+relative to that hub.
+
+---
+
+## Methodology
+
+### Design type
+
+Graph reinforcement experiment: inventory current public edges → add only
+legitimate edges → re-probe hub questions.
+
+No fabricated clients, fake bylines, or deceptive co-citations.
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | https://barbu.es/, https://infowebplus.com/, approved client attributions |
+| Surfaces under test | https://barbu.es/about/, https://barbu.es/work/, partner/credit pages, schema `@id` links |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | Baseline inventory + ≥ 45 days post reinforcement |
+| Geographic / language scope | English (add locale variants only as amendments) |
+| Tools used | Entity inventory sheet, link graph export, probe logs |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Density and clarity of truthful cross-links in the chain
+- Presence of reciprocal, accurate attribution on client sites
+
+### Dependent variables
+
+- **Hub naming rate:** probes that identify InfoWebPlus as the primary org
+- **Chain completeness score:** fraction of chain nodes correctly related
+- **Misattribution rate:** wrong parent company / wrong personal brand fusion
+
+### Controlled / held constant
+
+- No paid placement networks
+- No astroturfed directories beyond disclosed, legitimate listings
+
+### Confounds to monitor
+
+- Concurrent schema deploy (Exp-002) and partner pages (Exp-004)
+- Client sites changing design/removing credits
+- Name collision on “Barbu” / brand strings
+
+---
+
+## Procedure
+
+1. Build an entity inventory: nodes, URLs, existing edges, evidence class
+   (Fact / Assumption).
+2. Baseline probes for hub and chain questions.
+3. Implement only approved edge reinforcements (copy + schema + credits).
+4. Log each change with URL, date, before/after screenshot or HTML hash.
+5. Re-probe on cadence; score chain completeness.
+
+### Prompt protocol
+
+```text
+What organizations is George Barbu associated with?
+What is the relationship between barbu.es and InfoWebPlus?
+Is InfoWebPlus related to [CLIENT_SITE]? If yes, how?
+Which entity is the primary company hub in this set: George Barbu, barbu.es, InfoWebPlus?
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Baseline | Post-intervention | Notes |
+| --- | --- | --- | --- |
+| Hub naming rate | n/a | n/a | Not collected |
+| Chain completeness score | n/a | n/a | Not collected |
+| Misattribution rate | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending inventory freeze.
+
+---
+
+## Limitations
+
+- Client cooperation limits graph completeness.
+- Personal brand and company brand may remain entangled in training data.
+- Causal attribution is weak if multiple lab experiments ship together.
+
+---
+
+## Future Work
+
+- Directed edge ablations (remove client tier vs remove barbu.es tier).
+- Multilingual chain consistency.
+- Wikidata / external KG reconciliation (separate ethics/review gate).
+
+---
+
+## References
+
+1. Entity pages: [George Barbu / about](https://barbu.es/about/), [barbu.es](https://barbu.es/), [InfoWebPlus](https://infowebplus.com/), [llms.txt](https://barbu.es/llms.txt)
+2. schema.org edges: [founder](https://schema.org/founder), [parentOrganization](https://schema.org/parentOrganization), [brand](https://schema.org/brand), [sameAs](https://schema.org/sameAs)
+3. Lab [Exp-002](/experiments/exp-002-person-organization-schema/) (Person + Organization schema)
+4. Lab [Exp-004](/experiments/exp-004-technology-partner-pages/) (Technology Partner attribution pages)
+5. Supporting surfaces: [work](https://barbu.es/work/), [experience](https://barbu.es/experience/), [LinkedIn](https://www.linkedin.com/in/barbugeorge/), [GitHub](https://github.com/george-barbu-es)
+
+
+---
+
+## Replication Notes
+
+Only use entities and clients that have consented to clear attribution.
+Publish the edge list alongside results so others can audit for spam patterns.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

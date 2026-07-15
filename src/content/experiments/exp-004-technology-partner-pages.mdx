@@ -1,0 +1,191 @@
+---
+id: exp-004
+number: 4
+title: "Entity stacking using legitimate Technology Partner pages"
+researchQuestion: "Do transparent Technology Partner / attribution pages on third-party sites improve discoverability and correct entity association for the credited vendor, compared to sites without such pages?"
+status: Planned
+startsOn: 2026-09-15
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - entity-stacking
+  - technology-partner
+  - attribution
+  - discoverability
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+  - barbu.es
+summary: >
+  Investigates whether legitimate, transparent Technology Partner attribution
+  pages create stronger AI-visible entity associations than the absence of
+  such pages. Distinguishes ethical attribution from deceptive link schemes.
+  No results yet.
+---
+
+## Motivation
+
+“Entity stacking” is sometimes used loosely to justify networks of thin
+partner pages. This lab tests the narrower claim: **transparent, accurate
+attribution pages** on real client/partner properties.
+
+### Facts
+
+- Many vendors publish Technology Partner or Built by pages.
+- Search systems historically treat manipulative doorway / partner spam as policy violations ([Google spam policies](https://developers.google.com/search/docs/essentials/spam-policies)); this experiment does not implement those patterns.
+- Vendor under study: [InfoWebPlus](https://infowebplus.com/); Person platform: [barbu.es](https://barbu.es/).
+
+### Assumptions
+
+- Honest attribution can still be a discoverability signal when content is
+  unique and relationship-true.
+- AI systems may cite partner pages when asked who built or supports a site.
+
+### Unknowns
+
+- Threshold at which partner-page volume becomes noise or risk.
+- Whether AI citations prefer partner pages over the vendor’s own domain.
+
+---
+
+## Hypothesis
+
+**H₀:** Adding legitimate Technology Partner pages does not increase correct
+vendor association or citation of the vendor’s canonical site in AI probes.
+
+**H₁:** Transparent partner pages increase (a) correct vendor naming for the
+host site and (b) citation of the vendor canonical URL, without increasing
+false partner claims elsewhere.
+
+---
+
+## Methodology
+
+### Design type
+
+Matched comparison across consenting properties: attribution page present vs
+absent (or before/after on the same property).
+
+Eligibility criteria (all required):
+
+1. Real commercial or editorial relationship exists.
+2. Page discloses the relationship accurately.
+3. Page is reachable from the site (nav, footer, or about).
+4. No fabricated testimonials or fake partner logos.
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | Consenting client/partner sites + InfoWebPlus canonical |
+| Surfaces under test | `/partners/`, `/technology/`, footer credits, case-study asides |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | ≥ 30 days post-publication per property |
+| Geographic / language scope | Per property language; log language of probes |
+| Tools used | Page inventory, crawl checks, probe logs |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Presence of Technology Partner page
+- Depth (stub vs substantive: scope of work, stack, dates)
+
+### Dependent variables
+
+- Correct vendor association rate for “Who built/supports [SITE]?”
+- Canonical vendor URL citation rate
+- False association rate on unrelated sites (safety metric)
+
+### Controlled / held constant
+
+- No PBNs, expired-domain networks, or mass identical page templates across
+  unrelated hosts without disclosure of templating
+
+### Confounds to monitor
+
+- Concurrent PR / launches
+- Client site authority differences
+- Exp-003 chain reinforcement overlapping the same URLs
+
+---
+
+## Procedure
+
+1. Select N≥3 consenting properties; document relationship evidence.
+2. Baseline probes without partner page (or with credit footer only - record which).
+3. Publish partner page variant A (minimal) or B (substantive); randomize if multiple.
+4. Verify indexability (no accidental `noindex`).
+5. Probe on schedule; include negative controls (“Who built [unrelated site]?”).
+
+### Prompt protocol
+
+```text
+Who provides technology or SEO services for [HOST_SITE]?
+Is [VENDOR] associated with [HOST_SITE]? Cite sources if possible.
+Name technology partners of [HOST_SITE], if any.
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Baseline | Post-intervention | Notes |
+| --- | --- | --- | --- |
+| Correct vendor association | n/a | n/a | Not collected |
+| Vendor URL citation rate | n/a | n/a | Not collected |
+| False association rate | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending partner selection.
+
+---
+
+## Limitations
+
+- Small N; site-level confounds dominate.
+- “Entity stacking” effects may be SEO-community folklore; this experiment may
+  fail to detect lift even if traditional crawlers react differently.
+- Policy risk if templates are abused - mitigated by eligibility criteria.
+
+---
+
+## Future Work
+
+- Compare footer-only credit vs dedicated partner page.
+- Measure human trust and AI citation as separate outcomes.
+
+---
+
+## References
+
+1. [Google Search spam policies](https://developers.google.com/search/docs/essentials/spam-policies) (doorway / affiliate abuse boundaries)
+2. Organization / attribution types: [schema.org/Organization](https://schema.org/Organization), [schema.org/Brand](https://schema.org/Brand) where applicable
+3. Vendor canonical: [InfoWebPlus](https://infowebplus.com/); Person platform: [barbu.es](https://barbu.es/)
+4. Lab [Exp-003](/experiments/exp-003-supporting-entities/) (supporting entity chain)
+5. Lab [Exp-010](/experiments/exp-010-case-studies-vs-seo-articles/) (case studies vs generic articles)
+
+
+---
+
+## Replication Notes
+
+Reject any implementation that would mislead users or invent partnerships.
+Publish page URLs and relationship evidence with results.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

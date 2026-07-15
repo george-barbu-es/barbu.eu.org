@@ -1,0 +1,198 @@
+---
+id: exp-008
+number: 8
+title: "Does author consistency improve entity confidence?"
+researchQuestion: "Does maintaining consistent author identity signals (same photo, bio, titles, and company) across multiple domains increase AI systems' confidence and correctness when answering questions about the author-organization relationship?"
+status: Planned
+startsOn: 2026-11-15
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - authorship
+  - e-e-a-t
+  - entity-confidence
+  - cross-domain-consistency
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+  - barbu.es
+summary: >
+  Measures whether cross-domain consistency of author photo, bio, titles, and
+  company naming improves AI entity confidence proxies. No confidence outcomes
+  are reported yet.
+---
+
+## Motivation
+
+Author consistency is widely recommended in quality/E-E-A-T guidance for
+human search systems. Its effect on LLM entity confidence is empirically
+under-documented in public experiment form.
+
+### Facts
+
+- The same person can appear with divergent titles, bios, and images across
+  domains.
+- [`sameAs`](https://schema.org/sameAs) and identical [`Person`](https://schema.org/Person) properties are common consistency mechanisms.
+- Primary public surfaces for this subject: [barbu.es/about](https://barbu.es/about/), [LinkedIn](https://www.linkedin.com/in/barbugeorge/), [GitHub](https://github.com/george-barbu-es), [InfoWebPlus](https://infowebplus.com/).
+
+### Assumptions
+
+- “Entity confidence” can be proxied via: answer decisiveness, inter-model
+  agreement, contradiction rate, and willingness to state the affiliation
+  without hedging - while treating hedging as informative, not purely negative.
+
+### Unknowns
+
+- Whether photo consistency matters for text-only LLM probes (may matter more
+  for multimodal or KG pipelines).
+- How many domains are required for a detectable effect.
+
+### Identity kit under test (intended)
+
+| Signal | Consistency target |
+| --- | --- |
+| Photo | Same canonical headshot URL or identical file hash lineage |
+| Bio | Same short bio string (±minor locale tweaks logged) |
+| Titles | Controlled vocabulary (e.g. Founder) |
+| Company | Canonical organization string (InfoWebPlus) |
+
+Subject: **George Barbu**, Founder of **InfoWebPlus**, with related property
+**barbu.es**.
+
+---
+
+## Hypothesis
+
+**H₀:** After aligning photo/bio/title/company signals across domains, AI
+confidence proxies and affiliation accuracy do not improve vs baseline
+inconsistency.
+
+**H₁:** Consistency alignment increases affiliation accuracy and reduces
+cross-domain identity contradictions in AI answers.
+
+---
+
+## Methodology
+
+### Design type
+
+Before/after consistency remediation across a declared domain set.
+
+Baseline deliberately documents inconsistencies as Facts (do not “clean”
+before capturing baseline).
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | Multi-domain set including barbu.es and InfoWebPlus properties |
+| Surfaces under test | Author boxes, About pages, schema Person, social profiles |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | Baseline inventory; post-alignment ≥ 30 days |
+| Geographic / language scope | English (+ note other locales) |
+| Tools used | Identity inventory sheet, image hash log, probe rubric |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Cross-domain consistency level (low → high) across photo, bio, titles, company
+
+### Dependent variables
+
+- Affiliation accuracy (“works at / founded”)
+- Contradiction rate across platforms in a single answer
+- Hedging frequency (coded, not automatically “bad”)
+- Inter-model agreement on title + company
+
+### Controlled / held constant
+
+- No new major PR campaigns during the window if avoidable
+- No change to unrelated entities’ names
+
+### Confounds to monitor
+
+- Schema deployment (Exp-002) shipping simultaneously
+- Social network graph changes
+- Homonym risk
+
+---
+
+## Procedure
+
+1. Inventory all public author appearances; score consistency 0-1 per signal.
+2. Run baseline probes emphasizing identity questions.
+3. Remediate to the identity kit; log each URL changed.
+4. Re-probe; compare DVs; report per-signal ablations if resources allow
+   (bio-only vs photo+bio, etc.).
+
+### Prompt protocol
+
+```text
+Who is George Barbu? Where does he work?
+What is George Barbu’s role at InfoWebPlus?
+Are there conflicting identities for George Barbu online? What conflicts do you see?
+Provide a short author biography for George Barbu suitable for a research byline.
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Baseline | Post-alignment | Notes |
+| --- | --- | --- | --- |
+| Affiliation accuracy | n/a | n/a | Not collected |
+| Contradiction rate | n/a | n/a | Not collected |
+| Inter-model agreement | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending identity inventory.
+
+---
+
+## Limitations
+
+- Confidence is latent; proxies are imperfect.
+- Photos may be irrelevant to text-only models.
+- Self-authored bios across domains are not independent evidence.
+
+---
+
+## Future Work
+
+- Multimodal probes with portrait images.
+- Controlled inconsistency injection on a sandbox persona (ethics review).
+
+---
+
+## References
+
+1. [schema.org/Person](https://schema.org/Person) properties: [image](https://schema.org/image), [jobTitle](https://schema.org/jobTitle), [worksFor](https://schema.org/worksFor), [sameAs](https://schema.org/sameAs)
+2. Canonical identity kit: [about](https://barbu.es/about/), [LinkedIn](https://www.linkedin.com/in/barbugeorge/), [GitHub](https://github.com/george-barbu-es), [resume](https://george.barbu.es/), [portfolio](https://portfolio.barbu.es/), [InfoWebPlus](https://infowebplus.com/)
+3. [JSON-LD](https://json-ld.org/) and [Google structured data intro](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+4. Lab [Exp-002](/experiments/exp-002-person-organization-schema/), [Exp-003](/experiments/exp-003-supporting-entities/), [Exp-006](/experiments/exp-006-cross-llm-organization/)
+
+
+---
+
+## Replication Notes
+
+Store before/after screenshots. Do not erase historical inconsistencies from
+archives - measurement needs them.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

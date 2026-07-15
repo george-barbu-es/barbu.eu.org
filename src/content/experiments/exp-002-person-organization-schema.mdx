@@ -1,0 +1,218 @@
+---
+id: exp-002
+number: 2
+title: "Does adding Person + Organization schema improve AI understanding?"
+researchQuestion: "Does deploying coherent schema.org Person and Organization structured data on a canonical site improve AI systems' accuracy when describing the person-organization relationship, compared to a markup-absent baseline?"
+status: Running
+startsOn: 2026-07-16
+evidenceLevel: C
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - schema.org
+  - person
+  - organization
+  - structured-data
+  - entity-seo
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+  - barbu.es
+summary: >
+  Protocol for measuring whether JSON-LD Person + Organization markup,
+  correctly cross-linked, improves AI entity understanding. No outcome data
+  are claimed in this document.
+---
+
+## Motivation
+
+Structured data is a verified input to traditional rich results in some
+cases, but its influence on LLM answers and AI search citations is less
+clearly measured in public literature.
+
+### Facts
+
+- [schema.org](https://schema.org/) defines [`Person`](https://schema.org/Person) and [`Organization`](https://schema.org/Organization) with properties such as `name`, `url`, [`sameAs`](https://schema.org/sameAs), [`founder`](https://schema.org/founder), and [`worksFor`](https://schema.org/worksFor).
+- Search engines publish guidelines for structured data validity ([Google intro](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)); validity ≠ proven AI citation lift.
+- Validate syntax with the [Schema Markup Validator](https://validator.schema.org/) before treating markup as an intervention.
+
+### Assumptions
+
+- AI systems that ingest the public web may use structured data as one signal
+  among many.
+- Probe questions about founder ↔ company relationships are a useful proxy
+  for “understanding.”
+
+### Unknowns
+
+- Whether LLMs preferentially trust JSON-LD over visible HTML text.
+- How long after deployment any effect could appear.
+- Interaction with Knowledge Graph / Knowledge Panel systems vs chat UIs.
+
+---
+
+## Hypothesis
+
+**H₀:** After deploying valid Person + Organization JSON-LD with explicit
+`founder` / `worksFor` links, AI probe accuracy on relationship questions
+does not improve versus baseline.
+
+**H₁:** Relationship-probe accuracy and consistency across systems increase
+after deployment of coherent Person + Organization markup.
+
+---
+
+## Methodology
+
+### Design type
+
+Before/after on a single canonical domain; optional holdout pages without
+markup if architecturally feasible.
+
+Markup must validate (e.g. Rich Results Test / Schema Markup Validator) and
+match visible content (no deceptive triples).
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | Canonical org property (InfoWebPlus / related) |
+| Surfaces under test | Homepage + About / Person page |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | Baseline ≥ 14 days; post ≥ 28 days |
+| Geographic / language scope | English |
+| Tools used | Schema validators, HTML snapshots, probe logs |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Presence of Person JSON-LD
+- Presence of Organization JSON-LD
+- Presence of explicit cross-links (`founder`, `worksFor`, `url`, `sameAs`)
+
+### Dependent variables
+
+- Binary accuracy on: “Who founded X?”, “Where does Y work?”, “Is Y related to X?”
+- Inter-model agreement rate on the same facts
+- Hallucinated relationship rate (fabricated roles/companies)
+
+### Controlled / held constant
+
+- Visible copy describing the relationship (held constant when isolating markup)
+- `sameAs` target set (when testing markup presence alone)
+
+### Confounds to monitor
+
+- Simultaneous `sameAs` profile updates (Exp-008)
+- Wikipedia / Wikidata edits outside the experiment
+- CDN caching of old HTML without JSON-LD
+
+---
+
+## Procedure
+
+1. Capture baseline HTML and validate that target Person/Organization markup
+   is absent or incomplete; document current state as Fact.
+2. Run relationship probe suite.
+3. Deploy JSON-LD blocks; validate; commit version hash of markup.
+4. Confirm rendered source contains the nodes in production.
+5. Re-run probes on schedule; score with predefined rubric.
+
+### Prompt protocol
+
+```text
+Who is the founder of [ORGANIZATION]?
+Does [PERSON] work at or found [ORGANIZATION]? Answer with sources if you can.
+List official websites associated with [PERSON] and [ORGANIZATION].
+```
+
+### Planned markup sketch (not yet asserted as live)
+
+```json
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://example.com/#organization",
+      "name": "InfoWebPlus",
+      "url": "https://example.com/",
+      "founder": { "@id": "https://example.com/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://example.com/#person",
+      "name": "George Barbu",
+      "url": "https://example.com/about/",
+      "worksFor": { "@id": "https://example.com/#organization" }
+    }
+  ]
+}
+```
+
+Replace `example.com` with the locked production URLs before Running status.
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Baseline | Post-intervention | Notes |
+| --- | --- | --- | --- |
+| Relationship accuracy | n/a | n/a | Not collected |
+| Inter-model agreement | n/a | n/a | Not collected |
+| Hallucinated relationship rate | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending.
+
+---
+
+## Limitations
+
+- Visible text may already encode the same facts as JSON-LD, making markup
+  incremental effect small.
+- Validators confirm syntax, not AI consumption.
+- Schema.org types beyond Person/Organization are out of scope here (see Exp-009).
+
+---
+
+## Future Work
+
+- Ablate `sameAs` vs nested `founder` edges.
+- Combine with Exp-003 entity chain and Exp-008 author consistency.
+
+---
+
+## References
+
+1. [schema.org/Person](https://schema.org/Person) and [schema.org/Organization](https://schema.org/Organization) (pin vocabulary version at run start)
+2. Relationship properties: [founder](https://schema.org/founder), [worksFor](https://schema.org/worksFor), [sameAs](https://schema.org/sameAs)
+3. [JSON-LD](https://json-ld.org/) transport; validate with [Schema Markup Validator](https://validator.schema.org/) and [Rich Results Test](https://search.google.com/test/rich-results)
+4. [Google structured data introduction](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+5. Canonical entities: [George Barbu](https://barbu.es/about/), [InfoWebPlus](https://infowebplus.com/), [barbu.es](https://barbu.es/)
+6. Lab [Exp-009](/experiments/exp-009-structured-data-combinations/) (structured data combinations)
+
+
+---
+
+## Replication Notes
+
+Deploy only truthful triples. Score hallucinations separately from omissions.
+Never claim Knowledge Panel causation from chat-UI answers alone.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

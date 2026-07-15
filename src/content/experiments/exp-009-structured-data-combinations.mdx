@@ -1,0 +1,209 @@
+---
+id: exp-009
+number: 9
+title: "Testing structured data combinations"
+researchQuestion: "Which combinations of schema.org types (Person, Organization, CreativeWork, SoftwareApplication, Article, ProfilePage, CollectionPage) produce measurable differences in AI entity interpretation and citation behavior on a controlled site?"
+status: Planned
+startsOn: 2026-12-01
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - schema.org
+  - structured-data
+  - json-ld
+  - type-combinations
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+summary: >
+  Factorial-style comparison of schema.org type combinations beyond the Person
+  + Organization pair. Planned protocol; no combination is declared winning.
+---
+
+## Motivation
+
+Practitioners often stack many schema types hoping for AI/search benefits.
+Without combinatorial tests, recommendations remain anecdotal.
+
+### Types under comparison
+
+| Type | Typical surface |
+| --- | --- |
+| [`Person`](https://schema.org/Person) | Author / about ([example](https://barbu.es/about/)) |
+| [`Organization`](https://schema.org/Organization) | Home / company ([example](https://infowebplus.com/)) |
+| [`CreativeWork`](https://schema.org/CreativeWork) | Generic creative asset |
+| [`SoftwareApplication`](https://schema.org/SoftwareApplication) | Tool / product |
+| [`Article`](https://schema.org/Article) | Editorial / experiment write-up |
+| [`ProfilePage`](https://schema.org/ProfilePage) | Profile URL |
+| [`CollectionPage`](https://schema.org/CollectionPage) | Hub / index of experiments |
+
+### Facts
+
+- These types are defined on [schema.org](https://schema.org/) with overlapping applicable properties.
+- Valid markup does not guarantee consumption by any AI system; check with the [Schema Markup Validator](https://validator.schema.org/).
+
+### Assumptions
+
+- More specific types (e.g. `SoftwareApplication`) may help when the page
+  truly is software - but overtyping can create contradictions.
+- AI interpretation differences, if any, may appear in product classification
+  questions more than in brand name questions.
+
+### Unknowns
+
+- Interaction effects between types in `@graph`.
+- Whether `ProfilePage` / `CollectionPage` matter for LLM UIs at all.
+
+---
+
+## Hypothesis
+
+**H₀:** Across preregistered combinations, AI probe metrics do not differ
+beyond noise.
+
+**H₁:** At least one enriched combination improves a preregistered primary
+metric (product-type classification accuracy **or** creative-work citation
+accuracy) relative to a Person+Organization-only baseline.
+
+Primary metric must be locked before Running status.
+
+---
+
+## Methodology
+
+### Design type
+
+Sequential deployments of typed combinations on designated URLs, with washout
+or distinct URL slots to reduce carryover when possible.
+
+### Planned combination arms (initial)
+
+1. Baseline: none / minimal
+2. Person + Organization
+3. + Article on experiment pages
+4. + ProfilePage on person URL
+5. + CollectionPage on lab index
+6. + SoftwareApplication on tool URL (ties to Exp-007)
+7. + CreativeWork where Article is intentionally omitted (contrast)
+
+Exact schedule recorded in `data/exp-009/schedule.md` when Running.
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | Lab site + product/tool URLs |
+| Surfaces under test | Home, about, experiment articles, tools index |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | ≥ 21 days per arm if sequential |
+| Geographic / language scope | English |
+| Tools used | Validators, `@graph` snapshots, probe codebook |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Schema type combination arm
+
+### Dependent variables
+
+- Entity type classification accuracy (person/org/software/article)
+- Conflict rate (mutually inconsistent types inferred)
+- Citation of typed URLs when asking for “official docs/tools/articles”
+
+### Controlled / held constant
+
+- Visible HTML content per URL when isolating markup
+- `@id` stability across arms
+
+### Confounds to monitor
+
+- Validator warnings ignored inconsistently
+- CMS plugins injecting duplicate Organization nodes
+- Parallel experiments changing same URLs
+
+---
+
+## Procedure
+
+1. Inventory current JSON-LD; freeze Arm 0.
+2. Probe classification suite.
+3. Deploy next arm; validate; wait; probe.
+4. Diff extracted AI type assertions vs markup intent.
+5. Stop or extend based on preregistered sample plan.
+
+### Prompt protocol
+
+```text
+Is [URL] best described as a person, organization, article, software, or collection? Why?
+What creative works or tools are published by [ORGANIZATION]?
+Extract structured facts you believe are asserted about [URL].
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Arm | Classification accuracy | Conflict rate | Notes |
+| --- | --- | --- | --- |
+| Baseline | n/a | n/a | Not collected |
+| Person + Organization | n/a | n/a | Not collected |
+| + Article | n/a | n/a | Not collected |
+| + ProfilePage | n/a | n/a | Not collected |
+| + CollectionPage | n/a | n/a | Not collected |
+| + SoftwareApplication | n/a | n/a | Not collected |
+| CreativeWork contrast | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending Arm 0 snapshot.
+
+---
+
+## Limitations
+
+- Sequential arms confound time with treatment.
+- Multiple types on one page can be valid yet confusing to scorers.
+- schema.org vocabulary updates may change recommended patterns.
+
+---
+
+## Future Work
+
+- True multi-URL randomized design with partners.
+- Microdata / RDFa vs JSON-LD transport comparison.
+
+---
+
+## References
+
+1. Type docs: [Person](https://schema.org/Person), [Organization](https://schema.org/Organization), [CreativeWork](https://schema.org/CreativeWork), [SoftwareApplication](https://schema.org/SoftwareApplication), [Article](https://schema.org/Article), [ProfilePage](https://schema.org/ProfilePage), [CollectionPage](https://schema.org/CollectionPage)
+2. Root vocabulary: [schema.org](https://schema.org/); transport: [JSON-LD](https://json-ld.org/)
+3. Validators: [Schema Markup Validator](https://validator.schema.org/), [Rich Results Test](https://search.google.com/test/rich-results)
+4. Guidance: [Google structured data introduction](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+5. Lab [Exp-002](/experiments/exp-002-person-organization-schema/), [Exp-007](/experiments/exp-007-tools-vs-blog/)
+6. Site anchors: [barbu.es](https://barbu.es/), [InfoWebPlus](https://infowebplus.com/)
+
+
+---
+
+## Replication Notes
+
+Export full JSON-LD for every arm. Never claim rich-result eligibility as an
+AI citation result.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

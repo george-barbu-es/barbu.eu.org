@@ -1,0 +1,20 @@
+---
+import { externalLinkProps } from '../lib/external-links';
+
+interface Props {
+  href: string;
+  class?: string;
+  'aria-current'?: string | boolean;
+  'aria-label'?: string;
+  rel?: string;
+}
+
+const { href, class: className, rel: relOverride, ...rest } = Astro.props;
+const auto = externalLinkProps(href);
+const rel = relOverride ?? auto.rel;
+const target = auto.target;
+---
+
+<a href={href} class={className} target={target} rel={rel} {...rest}>
+  <slot />
+</a>

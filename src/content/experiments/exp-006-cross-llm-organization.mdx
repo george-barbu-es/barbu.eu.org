@@ -1,0 +1,215 @@
+---
+id: exp-006
+number: 6
+title: "How do different LLMs interpret the same organization?"
+researchQuestion: "Given identical probe prompts about one organization, how do ChatGPT, Claude, Gemini, and Perplexity differ in factual coverage, mutual agreement, hallucinations, and source behavior?"
+status: Planned
+startsOn: 2026-10-15
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - llm-comparison
+  - chatgpt
+  - claude
+  - gemini
+  - perplexity
+  - entity-interpretation
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+  - barbu.es
+summary: >
+  Cross-model interpretation study of a single organization entity using a
+  fixed prompt suite across ChatGPT, Claude, Gemini, and Perplexity. Planned
+  measurement only; no comparative winners are declared here.
+---
+
+## Motivation
+
+AI-answer surfaces that report a single chatbot's answer as "what AI thinks"
+overgeneralizes. Cross-model disagreement is itself a first-class measurement.
+
+### Facts
+
+- ChatGPT, Claude, Gemini, and Perplexity are distinct products with different
+  retrieval, grounding, and UX citation behaviors.
+- Model names and routing change; product UI ≠ fixed model weight snapshot.
+- Organization under study: [InfoWebPlus](https://infowebplus.com/); Person: [George Barbu](https://barbu.es/about/); preferred sources: [llms.txt](https://barbu.es/llms.txt).
+
+### Assumptions
+
+- A stable organization with a modest public footprint is still measurable.
+- Disagreement can be scored along defined facets (identity, offerings,
+  people, geography, sources).
+
+### Unknowns
+
+- How much disagreement is retrieval variance vs parametric memory.
+- Impact of logged-in memory / personalization features.
+
+---
+
+## Hypothesis
+
+This experiment is primarily **descriptive**, not a single directional H₁.
+Preregistered expectations (not results):
+
+**E1:** Inter-model agreement will be higher on official name/URL than on
+nuanced service taxonomy.
+
+**E2:** Systems with visible retrieval/citation will list more URLs but not
+necessarily higher factual precision.
+
+**H₀ (for E1):** Facet agreement rates do not differ by facet type beyond noise.
+
+---
+
+## Methodology
+
+### Design type
+
+Repeated measures across systems: same prompts, same week, same operator
+protocol; score with a shared codebook.
+
+Minimum repeats: 3 sessions per system within 7 days (to estimate
+within-system variance).
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | Organization under study (InfoWebPlus / related) |
+| Surfaces under test | N/A (read-only probes); optional URL context variants as factor |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | Locked calendar week per wave |
+| Geographic / language scope | English; record account locale |
+| Tools used | Codebook, spreadsheets, full response archives |
+
+### System labeling rules
+
+Record for every run:
+
+- Product name and surface (web UI / app / API)
+- Any visible model label
+- Date-time (UTC)
+- Whether browsing/retrieval appeared enabled
+- Whether the account may have memory of prior lab probes
+
+---
+
+## Variables
+
+### Independent variables
+
+- AI system (four levels)
+- Optional: with vs without pasted canonical URL in prompt
+
+### Dependent variables
+
+- Facet accuracy vs gold card (maintained by authors; gold card can be wrong - log disputes)
+- Hallucination count (fabricated products, people, awards)
+- Source URL count and precision
+- Pairwise agreement (Jaccard on extracted triples)
+
+### Controlled / held constant
+
+- Prompt text
+- Order of systems randomized per session to reduce operator drift
+- No “correcting” the model mid-prompt in scored runs
+
+### Confounds to monitor
+
+- Prior conversation contamination - prefer fresh threads
+- Regional answer differences
+- Simultaneous web changes (other experiments)
+
+---
+
+## Procedure
+
+1. Build a gold attribute card (name, URLs, founder, services, locations)
+   with evidence links; mark uncertain fields as Unknown.
+2. Freeze prompt suite.
+3. For each system, open a fresh conversation; run prompts; export/capture.
+4. Code responses blind to hypothesized “best” system.
+5. Compute per-facet accuracy, hallucination rate, pairwise agreement.
+6. Repeat for wave 2 after major site changes (links to other experiments).
+
+### Prompt protocol
+
+```text
+Describe [ORGANIZATION] in 5-8 sentences. Separate facts from uncertainty.
+Who founded [ORGANIZATION], and what related sites exist?
+What products or services does [ORGANIZATION] offer?
+Which statements about [ORGANIZATION] are you uncertain about?
+```
+
+Optional URL-conditioned variant:
+
+```text
+Using only what you can verify, describe the organization at [CANONICAL_URL].
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed. No model ranking is implied.
+
+| System | Identity accuracy | Hallucinations | Sources shown | Notes |
+| --- | --- | --- | --- | --- |
+| ChatGPT | n/a | n/a | n/a | Not collected |
+| Claude | n/a | n/a | n/a | Not collected |
+| Gemini | n/a | n/a | n/a | Not collected |
+| Perplexity | n/a | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending wave 1.
+
+---
+
+## Limitations
+
+- UI products are moving targets; replication must restate product versions.
+- Operator accounts may be personalized.
+- Gold cards written by interested parties risk confirmation bias - invite
+  external review when results exist.
+
+---
+
+## Future Work
+
+- Add API-only models with pinned versions.
+- Multilingual probes.
+- Correlate disagreement with Exp-002 schema deployment waves.
+
+---
+
+## References
+
+1. Organization under study: [InfoWebPlus](https://infowebplus.com/); Person: [George Barbu](https://barbu.es/about/); platform: [barbu.es](https://barbu.es/)
+2. Preferred sources index: [barbu.es/llms.txt](https://barbu.es/llms.txt)
+3. Gold-card fields may align with [schema.org/Organization](https://schema.org/Organization) and [schema.org/Person](https://schema.org/Person)
+4. Lab [Exp-002](/experiments/exp-002-person-organization-schema/), [Exp-003](/experiments/exp-003-supporting-entities/)
+5. Profiles: [LinkedIn](https://www.linkedin.com/in/barbugeorge/), [GitHub](https://github.com/george-barbu-es/), [resume](https://george.barbu.es/), [portfolio](https://portfolio.barbu.es/)
+
+
+---
+
+## Replication Notes
+
+Publish anonymized coding sheets. Do not average models into a fake “AI consensus”
+without showing disagreement distributions.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

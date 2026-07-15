@@ -1,0 +1,189 @@
+---
+id: exp-007
+number: 7
+title: "Can free tools create stronger entity associations than blog articles?"
+researchQuestion: "Does publishing a useful free tool on a controlled domain create stronger AI entity associations (brand ↔ capability) than publishing a conventional blog article on the same topic?"
+status: Planned
+startsOn: 2026-11-01
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - free-tools
+  - blog-content
+  - entity-association
+  - productized-utilities
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+summary: >
+  Contrasts a functional free utility against a traditional blog article for
+  inducing brand-capability associations in AI answers. Experiment is Planned;
+  no superiority claims are made.
+---
+
+## Motivation
+
+SEO folklore often claims tools outperform blogs for links and brand search.
+This experiment asks a narrower AI-visibility question: **entity association
+strength** in LLM answers.
+
+### Facts
+
+- Tools and articles are different content genres with different user behaviors.
+- Both can target the same keyword/topic cluster.
+- Markup candidates: [`SoftwareApplication`](https://schema.org/SoftwareApplication) for tools, [`Article`](https://schema.org/Article) for posts; validate via [Schema Markup Validator](https://validator.schema.org/).
+- Publisher context: [InfoWebPlus](https://infowebplus.com/), author [George Barbu](https://barbu.es/about/).
+
+### Assumptions
+
+- AI systems may mention tools when users ask “how do I …?” more often than
+  they mention blog posts.
+- Association strength can be proxied by brand mention rate in solution-oriented
+  prompts.
+
+### Unknowns
+
+- Whether any lift is due to backlinks/authorship graph rather than the tool UX.
+- Longevity of associations if the tool is rarely updated.
+
+---
+
+## Hypothesis
+
+**H₀:** Brand mention / correct attribution rates do not differ between the
+tool URL condition and the blog URL condition for matched topics.
+
+**H₁:** The free tool condition yields higher correct brand↔capability
+association on task-oriented prompts than the blog condition.
+
+---
+
+## Methodology
+
+### Design type
+
+Two-arm content deploy on similar site authority:
+
+- Arm T: free tool (interactive or downloadable utility) + minimal docs
+- Arm B: blog article covering the same problem without a tool
+
+Prefer parallel publish dates. If sequential, document order effects.
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | Controlled publishing domain(s) under InfoWebPlus / lab |
+| Surfaces under test | Tool landing page, blog post URL |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | ≥ 45 days post-publish |
+| Geographic / language scope | English |
+| Tools used | Analytics (traffic only as covariate), probe logs, association rubric |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Content type: free tool vs blog article
+
+### Dependent variables
+
+- Brand mention rate on “how do I solve [PROBLEM]?” prompts
+- Correct tool attribution rate (“built by / offered by”)
+- URL citation rate (tool vs blog)
+- Instructional accuracy (does the answer actually solve the task?)
+
+### Controlled / held constant
+
+- Topic / problem statement
+- Author byline where applicable (coordinate with Exp-008)
+- Promotion budget (ideally zero paid; if not, equalize and disclose)
+
+### Confounds to monitor
+
+- Organic backlinks preferentially to the tool
+- App-store or directory listings
+- Users pasting tool output into chats (contamination)
+
+---
+
+## Procedure
+
+1. Select a problem with clear success criteria and low legal/PII risk.
+2. Ship Arm T and Arm B; record URLs and publish timestamps.
+3. Freeze prompt suite mixing branded and unbranded problem queries.
+4. Probe weekly; score association and citation.
+5. Optionally track human usage metrics as covariates, not primary outcomes.
+
+### Prompt protocol
+
+```text
+How can I [SOLVE_PROBLEM] for free?
+What tools exist to [SOLVE_PROBLEM]?
+Is there a tool by [ORGANIZATION] for [SOLVE_PROBLEM]?
+Summarize how to [SOLVE_PROBLEM] and cite useful pages.
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Free tool | Blog article | Notes |
+| --- | --- | --- | --- |
+| Brand mention rate | n/a | n/a | Not collected |
+| Correct attribution rate | n/a | n/a | Not collected |
+| URL citation rate | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending topic lock.
+
+---
+
+## Limitations
+
+- Tools attract different link graphs; AI effects may be indirect.
+- A single topic does not generalize to all niches.
+- “Free tool” quality variance can dominate genre effects.
+
+---
+
+## Future Work
+
+- Multi-topic replication.
+- Tool docs only vs tool + blog cluster.
+- Compare with Exp-005 documentation genre findings.
+
+---
+
+## References
+
+1. Tool pages may use [schema.org/SoftwareApplication](https://schema.org/SoftwareApplication); articles may use [schema.org/Article](https://schema.org/Article)
+2. Validate markup via [Schema Markup Validator](https://validator.schema.org/)
+3. Publisher: [InfoWebPlus](https://infowebplus.com/); author kit: [George Barbu](https://barbu.es/about/)
+4. Lab [Exp-005](/experiments/exp-005-docs-vs-marketing-citations/) (docs vs marketing)
+5. Lab [Exp-010](/experiments/exp-010-case-studies-vs-seo-articles/) (case studies vs generic SEO articles)
+
+
+---
+
+## Replication Notes
+
+Choose problems you can ethically instrument. Do not scrape personal data in
+demo tools. Publish negative results if blogs match tools.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

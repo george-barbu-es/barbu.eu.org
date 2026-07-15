@@ -1,0 +1,220 @@
+---
+import { getCollection, render } from 'astro:content';
+import SmartLink from '../../components/SmartLink.astro';
+import { canonical, entityHref } from '../../data/canonical';
+import { lab } from '../../data/lab';
+import {
+  activationLabel,
+  evidenceLevelMeaning,
+  resolveEffectiveStatus,
+  toUtcDay,
+} from '../../lib/experiment-status';
+
+export async function getStaticPaths() {
+  const experiments = await getCollection('experiments');
+  return experiments.map((experiment) => ({
+    params: { id: experiment.id },
+    props: { experiment },
+  }));
+}
+
+const { experiment } = Astro.props;
+const { Content } = await render(experiment);
+const { data } = experiment;
+const updated = data.updated ?? data.published;
+const now = new Date();
+const effectiveStatus = resolveEffectiveStatus(data, now);
+const scheduleHint = activationLabel(data, now);
+
+const relatedEntities = data.relatedEntities.map((label) => ({
+  label,
+  href: entityHref(label),
+}));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{data.title} · {lab.name}</title>
+    <meta name="description" content={data.summary} />
+    <link rel="stylesheet" href="/styles/lab.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <p class="brand"><a href="/">{lab.shortName}</a></p>
+        <nav aria-label="Primary">
+          <a href="/experiments/">Experiments</a>
+          <SmartLink href={canonical.labRepo}>Repository</SmartLink>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap experiment-page">
+      <article>
+        <header class="page-header">
+          <p class="kicker">
+            Exp-{String(data.number).padStart(3, '0')}
+            <span class="badge-row">
+              <span
+                class={`status status-${effectiveStatus.toLowerCase()}`}
+                data-status-manual={data.status}
+                data-starts-on={data.startsOn ? toUtcDay(data.startsOn) : undefined}
+              >
+                {effectiveStatus}
+              </span>
+              <span
+                class={`evidence evidence-${data.evidenceLevel.toLowerCase()}`}
+                title={evidenceLevelMeaning[data.evidenceLevel]}
+              >
+                {data.evidenceLevel}
+              </span>
+            </span>
+            {
+              scheduleHint && (
+                <span class="schedule-hint" data-schedule-hint>
+                  {scheduleHint}
+                </span>
+              )
+            }
+          </p>
+          <h1>{data.title}</h1>
+          <p class="lede research-q">
+            <span class="label">Research question</span>
+            {data.researchQuestion}
+          </p>
+        </header>
+
+        <aside class="meta-panel" aria-label="Experiment metadata">
+          <dl>
+            <div>
+              <dt>Status</dt>
+              <dd>
+                <span
+                  class={`status status-${effectiveStatus.toLowerCase()}`}
+                  data-status-manual={data.status}
+                  data-starts-on={data.startsOn ? toUtcDay(data.startsOn) : undefined}
+                >
+                  {effectiveStatus}
+                </span>
+                {
+                  (scheduleHint || data.startsOn) && (
+                    <span class="schedule-hint" data-schedule-hint>
+                      {scheduleHint ?? (data.startsOn ? `Scheduled ${toUtcDay(data.startsOn)}` : '')}
+                    </span>
+                  )
+                }
+              </dd>
+            </div>
+            <div>
+              <dt>Evidence level</dt>
+              <dd>
+                <span class={`evidence evidence-${data.evidenceLevel.toLowerCase()}`}>
+                  {data.evidenceLevel}
+                </span>
+                <span class="meta-note"> {evidenceLevelMeaning[data.evidenceLevel]}</span>
+              </dd>
+            </div>
+            {
+              data.startsOn && (
+                <div>
+                  <dt>startsOn</dt>
+                  <dd>
+                    <time datetime={data.startsOn.toISOString()}>{toUtcDay(data.startsOn)}</time>
+                    <span class="meta-note"> (Planned becomes Running on this UTC day)</span>
+                  </dd>
+                </div>
+              )
+            }
+            <div>
+              <dt>Author</dt>
+              <dd>
+                <SmartLink href={canonical.about}>{data.author.name}</SmartLink>,
+                {data.author.role} of
+                <SmartLink href={canonical.organization}>{data.author.organization}</SmartLink>
+              </dd>
+            </div>
+            <div>
+              <dt>Published</dt>
+              <dd>
+                <time datetime={data.published.toISOString()}>
+                  {data.published.toISOString().slice(0, 10)}
+                </time>
+              </dd>
+            </div>
+            <div>
+              <dt>Updated</dt>
+              <dd>
+                <time datetime={updated.toISOString()}>{updated.toISOString().slice(0, 10)}</time>
+              </dd>
+            </div>
+            {
+              data.tags.length > 0 && (
+                <div>
+                  <dt>Tags</dt>
+                  <dd class="tag-list">
+                    {data.tags.map((tag) => (
+                      <span>{tag}</span>
+                    ))}
+                  </dd>
+                </div>
+              )
+            }
+            {
+              relatedEntities.length > 0 && (
+                <div>
+                  <dt>Related entities</dt>
+                  <dd class="entity-links">
+                    {
+                      relatedEntities.map((entity, index) => (
+                        <span class="entity-item">
+                          {index > 0 && <span class="entity-sep" aria-hidden="true"> · </span>}
+                          {entity.href ? (
+                            <SmartLink href={entity.href}>{entity.label}</SmartLink>
+                          ) : (
+                            <span>{entity.label}</span>
+                          )}
+                        </span>
+                      ))
+                    }
+                  </dd>
+                </div>
+              )
+            }
+          </dl>
+          <p class="summary">{data.summary}</p>
+        </aside>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <aside class="trust-strip" aria-label="Primary standards">
+          <p class="kicker">Primary standards</p>
+          <ul class="trust-links">
+            <li><SmartLink href="https://schema.org/">schema.org</SmartLink></li>
+            <li><SmartLink href="https://schema.org/Person">Person</SmartLink></li>
+            <li><SmartLink href="https://schema.org/Organization">Organization</SmartLink></li>
+            <li><SmartLink href="https://validator.schema.org/">Schema Validator</SmartLink></li>
+            <li><SmartLink href="https://llmstxt.org/">llms.txt</SmartLink></li>
+            <li><SmartLink href={canonical.about}>George Barbu</SmartLink></li>
+            <li><SmartLink href={canonical.organization}>InfoWebPlus</SmartLink></li>
+            <li><SmartLink href={canonical.llmsTxt}>barbu.es/llms.txt</SmartLink></li>
+          </ul>
+        </aside>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          <a href="/experiments/">← All experiments</a>
+        </p>
+      </div>
+    </footer>
+    <script src="/scripts/status-schedule.js" defer></script>
+  </body>
+</html>

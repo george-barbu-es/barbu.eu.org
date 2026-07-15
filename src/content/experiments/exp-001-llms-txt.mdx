@@ -1,0 +1,222 @@
+---
+id: exp-001
+number: 1
+title: "Does llms.txt influence AI discoverability?"
+researchQuestion: "Does publishing a well-formed /llms.txt file change how major AI systems discover, cite, or summarize a controlled web property compared to an otherwise identical baseline without llms.txt?"
+status: Running
+startsOn: 2026-07-16
+evidenceLevel: C
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - llms-txt
+  - ai-discoverability
+  - robots
+  - documentation-surfaces
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+  - barbu.es
+summary: >
+  Controlled before/after experiment measuring whether an llms.txt file
+  published at the site root produces detectable changes in AI retrieval,
+  citation, or organization description quality. Results are not yet
+  collected; this document defines the protocol only.
+---
+
+## Motivation
+
+Practitioners increasingly publish `llms.txt` as a proposed machine-readable
+entry point for LLM crawlers and retrieval systems. Adoption claims often
+outrun measurement.
+
+### Facts
+
+- [`llms.txt`](https://llmstxt.org/) is a proposed community convention ([repo](https://github.com/AnswerDotAI/llms-txt)); it is not a W3C or IETF standard as of this writing.
+- A working example used by this lab: [https://barbu.es/llms.txt](https://barbu.es/llms.txt).
+- Related but distinct: [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html) (`robots.txt`).
+- Some publishers document product/content inventories for LLM consumption.
+
+### Assumptions
+
+- At least some AI systems occasionally fetch or honor publisher-provided
+  guidance files beyond classic `robots.txt`.
+- Discoverability can be operationalized via citation frequency, entity
+  description accuracy, and retrieval of linked documentation URLs.
+
+### Unknowns
+
+- Which AI systems, if any, reliably consume `llms.txt`.
+- Whether observed citation changes would be caused by the file versus
+  concurrent indexing, brand queries, or training-cutoff artifacts.
+- Latency from publication to any observable effect.
+
+---
+
+## Hypothesis
+
+**H₀:** After publishing `llms.txt`, probe metrics (citation of canonical URLs,
+accuracy of organization description, retrieval of linked docs) do not differ
+from the no-`llms.txt` baseline beyond chance / measurement noise.
+
+**H₁:** Publishing a complete, accurate `llms.txt` increases the rate at which
+probed AI systems surface canonical URLs or correctly map entity attributes
+listed in the file, within a defined observation window.
+
+---
+
+## Methodology
+
+### Design type
+
+Single-property interrupted time series: baseline probes → publish
+`llms.txt` → repeated probes on a fixed schedule.
+
+### Epistemic labels used in this document
+
+| Label | Meaning |
+| --- | --- |
+| Fact | Directly observed or independently verifiable |
+| Assumption | Believed but not verified in this experiment |
+| Hypothesis | Testable claim under evaluation |
+| Unknown | Insufficient evidence to classify |
+| Limitation | Constraint that bounds interpretation |
+
+A matched control property (no `llms.txt`) is preferred if an otherwise similar
+domain is available; otherwise document absence of control as a limitation.
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | https://barbu.es/ (Person platform); compare with org surfaces on https://infowebplus.com/ when locked |
+| Surfaces under test | https://barbu.es/llms.txt, linked preferred sources from that file |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity (UI probes; API if access available) |
+| Measurement window | Baseline ≥ 14 days; post-publish ≥ 28 days |
+| Geographic / language scope | English probes; record locale/account settings |
+| Tools used | Prompt log sheets, URL fetch logs, schema/HTML snapshots |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Presence/absence of `/llms.txt`
+- Content completeness of `llms.txt` (minimal vs documented inventory)
+
+### Dependent variables
+
+- **Citation rate:** share of probe responses that include at least one
+  canonical URL from the file
+- **Entity attribute accuracy:** correct legal/brand name, founder, products
+  when asked fixed questions
+- **Doc URL surface rate:** share of responses that mention linked secondary URLs
+
+### Controlled / held constant
+
+- Same prompt set, order, and phrasing across waves
+- No concurrent major content launches during measurement if avoidable
+- Same operator account settings per system
+
+### Confounds to monitor
+
+- Unrelated indexing of the property
+- Model updates mid-window
+- Cross-contamination from Experiments 002-010 running in parallel
+
+---
+
+## Procedure
+
+1. Snapshot site (HTML, existing robots/sitemap, schema) and freeze a prompt suite.
+2. Run baseline probes (≥ 3 sessions per system across ≥ 7 calendar days).
+3. Archive raw outputs with timestamps and model labels when visible.
+4. Publish `/llms.txt` with checksum and public changelog entry.
+5. Confirm HTTP 200, `text/plain` (or documented type), and crawlability.
+6. Repeat identical probes on a fixed cadence (e.g. twice weekly for 4 weeks).
+7. Score outputs with a predefined rubric; second rater for a sample.
+
+### Prompt protocol
+
+```text
+What is [ORGANIZATION]? Cite primary sources if available.
+Who founded [ORGANIZATION]?
+List official documentation or developer resources for [ORGANIZATION].
+```
+
+### Data retention
+
+Raw captures: `data/exp-001/raw/`. Scoring sheets: `data/exp-001/scores/`.
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed. Do not interpret emptiness as a negative finding.
+
+| Metric | Baseline | Post-intervention | Notes |
+| --- | --- | --- | --- |
+| Citation rate | n/a | n/a | Not collected |
+| Entity attribute accuracy | n/a | n/a | Not collected |
+| Doc URL surface rate | n/a | n/a | Not collected |
+
+### Epistemic status of findings
+
+| Claim type | Content |
+| --- | --- |
+| Facts | Protocol defined; file not yet treated as causal intervention in logged runs |
+| Supported inferences | None |
+| Unsupported / speculative | Any claim that `llms.txt` “works” or “does not work” |
+
+---
+
+## Observations
+
+- Pending baseline collection.
+
+---
+
+## Limitations
+
+- Closed models: crawler behavior is opaque; fetch of `llms.txt` may be unobservable.
+- Training data lag may dominate short windows.
+- UI personalization and memory features can bias repeats.
+- Without a parallel control domain, secular trends remain hard to separate.
+
+---
+
+## Future Work
+
+- Multi-domain RCT if partner sites are available.
+- Compare `llms.txt` alone vs `llms.txt` + structured data (see Exp-002, Exp-009).
+- Log server access for `llms.txt` user-agents if logs are available.
+
+---
+
+## References
+
+1. [llms.txt proposal](https://llmstxt.org/) ([spec repo](https://github.com/AnswerDotAI/llms-txt))
+2. Live preferred-source list: [barbu.es/llms.txt](https://barbu.es/llms.txt)
+3. [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html) Robots Exclusion Protocol (related convention; not equivalent to `llms.txt`)
+4. Canonical Person sources: [about](https://barbu.es/about/), [cornerstone](https://barbu.es/writing/founder-how-i-think/), [now](https://barbu.es/now/)
+5. Lab [Exp-005](/experiments/exp-005-docs-vs-marketing-citations/) and [Exp-006](/experiments/exp-006-cross-llm-organization/)
+
+
+---
+
+## Replication Notes
+
+1. Use a property you control; publish a dated `llms.txt`.
+2. Keep prompts immutable after baseline lock.
+3. Report model product names and dates, not marketing labels alone.
+4. Publish null results.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

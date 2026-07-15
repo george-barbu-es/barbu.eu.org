@@ -1,0 +1,197 @@
+---
+id: exp-005
+number: 5
+title: "Can AI citations be influenced through high-quality technical documentation?"
+researchQuestion: "For the same underlying product or organization, do AI systems cite high-quality technical/research documentation more often and more accurately than marketing content?"
+status: Planned
+startsOn: 2026-10-01
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - citations
+  - technical-documentation
+  - marketing-content
+  - content-quality
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+summary: >
+  Comparative study of citation behavior toward marketing pages versus
+  research-grade documentation covering the same claims. No citation
+  outcomes are reported yet.
+---
+
+## Motivation
+
+Teams often prioritize landing-page copy for “AI SEO.” An alternative hypothesis
+is that retrieval and citation systems prefer technical documentation with
+clear definitions, procedures, and limitations - similar to human engineer
+preferences.
+
+### Facts
+
+- Marketing and documentation pages can describe the same entity with different
+  structure, tone, and verifiability. See editorial stance on [barbu.es/about](https://barbu.es/about/).
+- Citation UIs (for example systems that show sources) make some citation events
+  observable; chat-only UIs often do not.
+- When markup is used, docs may align with [`Article`](https://schema.org/Article) or [`TechArticle`](https://schema.org/TechArticle).
+
+### Assumptions
+
+- Holding topical relevance roughly constant, presentation quality and
+  evidential style still matter.
+- “Marketing content” and “research documentation” can be labeled with a
+  reproducible rubric.
+
+### Unknowns
+
+- Whether citation preference, when observed, transfers across AI products.
+- Whether length or HTML cleanliness dominates genre.
+
+---
+
+## Hypothesis
+
+**H₀:** Holding topic and freshness roughly equal, marketing pages and research
+documentation receive indistinguishable citation and accuracy outcomes in
+probes.
+
+**H₁:** Research documentation is cited more often and/or yields fewer factual
+errors than marketing content for matched questions.
+
+---
+
+## Methodology
+
+### Design type
+
+Paired content contrast: for each claim set, publish (or select) one marketing
+URL and one documentation/research URL; probe with questions answerable from
+both.
+
+### Content labeling rubric
+
+| Class | Criteria (must meet majority) |
+| --- | --- |
+| Marketing | Persuasive CTA, superlatives, weak method detail, benefit-led H1 |
+| Research documentation | Explicit methods/limits, definitions, reversible claims, minimal CTA |
+
+Pages failing to classify cleanly are excluded or labeled Mixed (not in
+primary contrast).
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | InfoWebPlus / lab properties with both genres |
+| Surfaces under test | Landing pages vs method/experiment docs (including this lab) |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity (prefer citation-visible modes) |
+| Measurement window | After both URLs are live ≥ 14 days |
+| Geographic / language scope | English |
+| Tools used | Rubric scores, citation capture (screenshot + text), accuracy rubric |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Content genre: marketing vs research documentation
+
+### Dependent variables
+
+- Citation incidence (when UI exposes sources)
+- Factual accuracy of answers grounded in the page pair
+- Preference when both could answer (which URL appears)
+
+### Controlled / held constant
+
+- Same claim inventory covered by both pages
+- No exclusive facts only on one page (or document exclusive facts as a factor)
+
+### Confounds to monitor
+
+- Domain authority differences if hosted on different roots
+- `noindex` / thin-content heuristics
+- Self-preference if prompts mention “Open AI Search Research Lab”
+
+---
+
+## Procedure
+
+1. Freeze a claim inventory (N claims).
+2. Produce or select paired URLs; score genre with two raters.
+3. Probe without mentioning genre; allow source citation.
+4. Record cited URLs, quoted spans if available, accuracy vs claim inventory.
+5. Analyze paired differences; preregister primary metric: citation of doc URL.
+
+### Prompt protocol
+
+```text
+Explain [CLAIM] regarding [ORGANIZATION/PRODUCT]. Cite sources.
+What limitations are documented for [TOPIC]?
+Summarize how [TOPIC] was measured or defined by the publisher.
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Marketing | Documentation | Notes |
+| --- | --- | --- | --- |
+| Citation incidence | n/a | n/a | Not collected |
+| Answer accuracy | n/a | n/a | Not collected |
+| Exclusive preference (when both cited) | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- This repository itself is intentionally documentation-styled; using it as a
+  treatment URL must be disclosed in the run log (possible self-selection bias).
+
+---
+
+## Limitations
+
+- Genre is continuous, not binary.
+- Citation UIs are product-specific and may change without notice.
+- Publishers cannot observe private retrieval ranking directly.
+
+---
+
+## Future Work
+
+- Add a third arm: hybrid pages.
+- Test PDF vs HTML documentation.
+- Cross-link with Exp-010 (case studies).
+
+---
+
+## References
+
+1. Lab editorial standards on [barbu.es about](https://barbu.es/about/) and [cornerstone](https://barbu.es/writing/founder-how-i-think/)
+2. Documentation genre may be typed as [schema.org/TechArticle](https://schema.org/TechArticle) or [schema.org/Article](https://schema.org/Article) when markup is used
+3. [Exp-001](/experiments/exp-001-llms-txt/) (`llms.txt` inventories often point at docs: [proposal](https://llmstxt.org/), [live file](https://barbu.es/llms.txt))
+4. [Exp-010](/experiments/exp-010-case-studies-vs-seo-articles/) (case studies vs generic SEO articles)
+5. Author / org: [George Barbu](https://barbu.es/about/), [InfoWebPlus](https://infowebplus.com/)
+
+
+---
+
+## Replication Notes
+
+Preregister which URL is marketing vs documentation before measuring citations.
+Do not silently edit marketing pages mid-flight to “look more technical.”
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

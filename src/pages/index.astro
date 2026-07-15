@@ -1,0 +1,237 @@
+---
+import { getCollection } from 'astro:content';
+import SmartLink from '../components/SmartLink.astro';
+import { canonical, person } from '../data/canonical';
+import { lab } from '../data/lab';
+import { trustLinkGroups } from '../data/trust-links';
+import {
+  evidenceLevelMeaning,
+  resolveEffectiveStatus,
+  toUtcDay,
+} from '../lib/experiment-status';
+
+const now = new Date();
+
+const experiments = (await getCollection('experiments'))
+  .map((experiment) => ({
+    ...experiment,
+    effectiveStatus: resolveEffectiveStatus(experiment.data, now),
+  }))
+  .sort((a, b) => a.data.number - b.data.number);
+
+const statusCounts = {
+  Planned: experiments.filter((e) => e.effectiveStatus === 'Planned').length,
+  Running: experiments.filter((e) => e.effectiveStatus === 'Running').length,
+  Completed: experiments.filter((e) => e.effectiveStatus === 'Completed').length,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{lab.name}</title>
+    <meta name="description" content={lab.tagline} />
+    <link rel="stylesheet" href="/styles/lab.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <p class="brand"><a href="/">{lab.shortName}</a></p>
+        <nav aria-label="Primary">
+          <a href="/experiments/">Experiments</a>
+          <SmartLink href={canonical.labRepo}>Repository</SmartLink>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <section class="hero">
+        <p class="kicker">barbu.eu.org · open research infrastructure</p>
+        <h1>{lab.name}</h1>
+        <p class="lede">{lab.tagline}</p>
+        <p class="lede publishing-rule">{lab.publishingRule}</p>
+        <dl class="status-grid" aria-label="Experiment status counts">
+          <div>
+            <dt>Planned</dt>
+            <dd data-status-count="Planned" data-live-count>{statusCounts.Planned}</dd>
+          </div>
+          <div>
+            <dt>Running</dt>
+            <dd data-status-count="Running" data-live-count>{statusCounts.Running}</dd>
+          </div>
+          <div>
+            <dt>Completed</dt>
+            <dd data-status-count="Completed" data-live-count>{statusCounts.Completed}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="mandate" aria-labelledby="mandate-heading">
+        <h2 id="mandate-heading">Mandate</h2>
+        <ul>
+          <li>Every article documents a real experiment.</li>
+          <li>Writing resembles engineering papers, not marketing posts.</li>
+          <li>Distinguish Facts, Assumptions, Hypotheses, Unknowns, and Limitations.</li>
+          <li>Never invent results. Empty results mean measurement has not occurred.</li>
+          <li>Quality over cadence: publish real work only.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="legend-heading">
+        <h2 id="legend-heading">Badges</h2>
+        <p class="legend-intro">
+          Status and evidence are set per experiment in frontmatter
+          (<code>status</code>, <code>evidenceLevel</code>). Raise evidence only when
+          archives justify it: D → C → B → A. Never invent upgrades.
+        </p>
+        <div class="legend-grid">
+          <div>
+            <h3>Status</h3>
+            <ul class="badge-legend badge-legend--status">
+              <li><span class="status status-planned">Planned</span></li>
+              <li><span class="status status-running">Running</span></li>
+              <li><span class="status status-completed">Completed</span></li>
+              <li><span class="status status-rejected">Rejected</span></li>
+              <li><span class="status status-archived">Archived</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Evidence level</h3>
+            <ul class="badge-legend badge-legend--evidence">
+              {
+                (['A', 'B', 'C', 'D'] as const).map((level) => (
+                  <li>
+                    <span class={`evidence evidence-${level.toLowerCase()}`}>{level}</span>
+                    <p class="legend-note">{evidenceLevelMeaning[level]}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="sources-heading">
+        <h2 id="sources-heading">Canonical sources</h2>
+        <p class="lede">
+          Preferred URLs from
+          <SmartLink href={canonical.knowledgePlatform}>barbu.es</SmartLink>
+          (also listed in
+          <SmartLink href={canonical.llmsTxt}>llms.txt</SmartLink>).
+        </p>
+        <ul class="source-list">
+          {
+            [
+              { label: 'About', href: canonical.about },
+              { label: 'Cornerstone', href: canonical.cornerstone },
+              { label: 'Now', href: canonical.now },
+              { label: 'Work', href: canonical.work },
+              { label: 'Experience', href: canonical.experience },
+              { label: 'Writing', href: canonical.writing },
+              { label: 'Contact', href: canonical.contact },
+              { label: 'Resume', href: canonical.resume },
+              { label: 'Portfolio', href: canonical.portfolio },
+              { label: 'InfoWebPlus', href: canonical.organization },
+              { label: 'llms.txt', href: canonical.llmsTxt },
+              { label: 'LinkedIn', href: canonical.linkedin },
+              { label: 'GitHub', href: canonical.github },
+            ].map((source) => (
+              <li>
+                <SmartLink href={source.href}>{source.label}</SmartLink>
+                <code>{source.href}</code>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section aria-labelledby="trust-heading">
+        <h2 id="trust-heading">Standards &amp; validators</h2>
+        <p class="lede">
+          Primary sources (for example <SmartLink href="https://schema.org/">schema.org</SmartLink>) keep claims auditable.
+        </p>
+        {
+          trustLinkGroups.map((group) => (
+            <div class="trust-group">
+              <h3>{group.title}</h3>
+              <ul class="trust-links">
+                {group.links.map((link) => (
+                  <li>
+                    <SmartLink href={link.href}>{link.label}</SmartLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </section>
+
+      <section aria-labelledby="exp-heading">
+        <div class="section-head">
+          <h2 id="exp-heading">Experiments</h2>
+          <a href="/experiments/">View all</a>
+        </div>
+        <ol class="exp-list">
+          {
+            experiments.map((experiment) => (
+              <li>
+                <a href={`/experiments/${experiment.id}/`}>
+                  <span class="exp-id">Exp-{String(experiment.data.number).padStart(3, '0')}</span>
+                  <span class="exp-title">{experiment.data.title}</span>
+                  <span class="badge-row">
+                    <span
+                      class={`status status-${experiment.effectiveStatus.toLowerCase()}`}
+                      data-status-manual={experiment.data.status}
+                      data-starts-on={experiment.data.startsOn ? toUtcDay(experiment.data.startsOn) : undefined}
+                    >
+                      {experiment.effectiveStatus}
+                    </span>
+                    <span class={`evidence evidence-${experiment.data.evidenceLevel.toLowerCase()}`}>
+                      {experiment.data.evidenceLevel}
+                    </span>
+                  </span>
+                </a>
+                <p>{experiment.data.researchQuestion}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="author-block" aria-labelledby="author-heading">
+        <h2 id="author-heading">Author</h2>
+        <p>
+          <SmartLink href={canonical.about}><strong>{person.name}</strong></SmartLink>,
+          {person.role} of
+          <SmartLink href={canonical.organization}>{person.organization}</SmartLink>
+        </p>
+        <p class="author-meta">
+          <a href={`mailto:${person.email}`}>{person.email}</a>
+          ·
+          <SmartLink href={canonical.linkedin}>LinkedIn</SmartLink>
+          ·
+          <SmartLink href={canonical.github}>GitHub</SmartLink>
+          ·
+          <SmartLink href={canonical.resume}>Resume</SmartLink>
+          ·
+          <SmartLink href={canonical.portfolio}>Portfolio</SmartLink>
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          {lab.name} ·
+          <SmartLink href={canonical.about}>{person.name}</SmartLink>
+          /
+          <SmartLink href={canonical.organization}>{person.organization}</SmartLink>
+        </p>
+      </div>
+    </footer>
+    <script src="/scripts/status-schedule.js" defer></script>
+  </body>
+</html>

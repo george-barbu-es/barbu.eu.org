@@ -1,0 +1,218 @@
+---
+# Copy this file to src/content/experiments/exp-NNN-slug.mdx
+# Replace NNN with the next experiment number. Fill every field below.
+# Do not invent results. Keep status Planned until measurement begins.
+
+id: exp-000
+number: 0
+title: "Experiment title (imperative research framing)"
+researchQuestion: "Does X produce measurable effect Y under condition Z?"
+status: Planned
+# When status is Planned, effective status becomes Running on/after this UTC day.
+# Terminal statuses (Completed, Rejected, Archived) are never auto-set.
+# Do not invent Completed results.
+startsOn: 2026-09-01
+# A = confirmed + repeated, B = confirmed once,
+# C = initial observation underway, D = hypothesis only
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - ai-search
+  - entity-seo
+  - knowledge-graph
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+  - barbu.es
+summary: >
+  One-paragraph abstract. State what will be tested, what will not be claimed,
+  and how success/failure will be recognized. No predictions presented as facts.
+---
+
+## Motivation
+
+Why this question matters for AI Search, Entity SEO, or Knowledge Graph work.
+Cite concrete practitioner problems. Link primary sources ([schema.org](https://schema.org/), RFCs, vendor docs, canonical entity pages) so readers can verify. Separate **facts** (observables) from
+**assumptions** (unverified premises).
+
+### Facts
+
+- [Observable fact 1]
+- [Observable fact 2]
+
+### Assumptions
+
+- [Assumption 1 - stated explicitly]
+- [Assumption 2 - stated explicitly]
+
+### Unknowns
+
+- [Unknown 1]
+- [Unknown 2]
+
+---
+
+## Hypothesis
+
+**H₀ (null):** [No effect / no difference.]
+
+**H₁ (alternative):** [Directional, falsifiable claim.]
+
+Hypothesis confidence must remain separate from results. Do not retrofit
+results into the hypothesis after measurement.
+
+---
+
+## Methodology
+
+Describe the experimental design at a level sufficient for independent
+replication. Prefer controlled contrasts over anecdotal observation.
+
+### Design type
+
+- [e.g. before/after, A/B cross-surface, multi-model probe, observational]
+
+### Epistemic labels used in this document
+
+| Label | Meaning |
+| --- | --- |
+| Fact | Directly observed or independently verifiable |
+| Assumption | Believed but not verified in this experiment |
+| Hypothesis | Testable claim under evaluation |
+| Unknown | Insufficient evidence to classify |
+| Limitation | Constraint that bounds interpretation |
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | |
+| Surfaces under test | |
+| AI systems probed | |
+| Measurement window | |
+| Geographic / language scope | |
+| Tools used | |
+
+---
+
+## Variables
+
+### Independent variables
+
+- [IV1]
+- [IV2]
+
+### Dependent variables
+
+- [DV1 - operational definition]
+- [DV2 - operational definition]
+
+### Controlled / held constant
+
+- [C1]
+- [C2]
+
+### Confounds to monitor
+
+- [Confound 1]
+- [Confound 2]
+
+---
+
+## Procedure
+
+1. Establish baseline (record date, prompts, URLs, schema snapshots).
+2. Apply intervention.
+3. Wait / observe for defined window.
+4. Re-measure with identical protocol.
+5. Archive raw outputs (prompt, response, timestamp, model version if known).
+
+### Prompt protocol (if applicable)
+
+Use a fixed prompt set. Do not edit prompts mid-experiment unless the change
+is logged as a protocol amendment.
+
+```text
+[Canonical probe prompt]
+```
+
+### Data retention
+
+Store raw AI outputs under `data/exp-NNN/` (git-lfs or external archive if large).
+Never summarize results without linking to primary captures.
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Baseline | Post-intervention | Notes |
+| --- | --- | --- | --- |
+| n/a | n/a | n/a | Awaiting collection |
+
+### Epistemic status of findings
+
+| Claim type | Content |
+| --- | --- |
+| Facts | None yet |
+| Supported inferences | None yet |
+| Unsupported / speculative | Explicitly avoided until data exists |
+
+---
+
+## Observations
+
+Qualitative notes during setup or early runs. Observations are not results.
+
+- Pending.
+
+---
+
+## Limitations
+
+- Sample size / window constraints
+- Non-reproducibility of closed AI systems (model updates, personalization)
+- Attribution ambiguity (correlation ≠ causal discoverability impact)
+- Observer effects from repeated probing
+
+---
+
+## Future Work
+
+- Extensions if H₁ is supported
+- Extensions if H₀ is not rejected
+- Cross-experiment links
+
+---
+
+## References
+
+1. Link primary standards with full URLs (example: [schema.org/Person](https://schema.org/Person), [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html), [llms.txt proposal](https://llmstxt.org/)).
+2. Link related lab experiments as paths under `/experiments/`.
+3. Link canonical entity sources from [barbu.es/llms.txt](https://barbu.es/llms.txt) and [InfoWebPlus](https://infowebplus.com/).
+4. Prefer validators ([Schema Markup Validator](https://validator.schema.org/)) over screenshots alone.
+
+### Trust rule
+
+Every non-obvious claim should point to a primary URL. Do not cite secondary SEO blogs as proof of platform behavior.
+
+---
+
+## Replication Notes
+
+To replicate:
+
+1. Mirror the intervention on a distinct property you control.
+2. Use the same prompt set and logging format.
+3. Record model names, dates, and UI vs API differences.
+4. Publish negative results with equal weight to positive ones.
+
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)

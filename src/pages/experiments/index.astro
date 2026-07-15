@@ -1,0 +1,122 @@
+---
+import { getCollection } from 'astro:content';
+import SmartLink from '../../components/SmartLink.astro';
+import { canonical } from '../../data/canonical';
+import { lab } from '../../data/lab';
+import {
+  activationLabel,
+  evidenceLevelMeaning,
+  resolveEffectiveStatus,
+  toUtcDay,
+} from '../../lib/experiment-status';
+
+const now = new Date();
+
+const experiments = (await getCollection('experiments'))
+  .map((experiment) => {
+    const effectiveStatus = resolveEffectiveStatus(experiment.data, now);
+    const scheduleHint = activationLabel(experiment.data, now);
+    return { ...experiment, effectiveStatus, scheduleHint };
+  })
+  .sort((a, b) => a.data.number - b.data.number);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Experiments · {lab.name}</title>
+    <meta
+      name="description"
+      content={`Experiment catalog for ${lab.name}: open protocols for AI Search, Entity SEO, and Knowledge Graph research.`}
+    />
+    <link rel="stylesheet" href="/styles/lab.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <p class="brand"><a href="/">{lab.shortName}</a></p>
+        <nav aria-label="Primary">
+          <a href="/experiments/" aria-current="page">Experiments</a>
+          <SmartLink href={canonical.labRepo}>Repository</SmartLink>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <header class="page-header">
+        <p class="kicker">Catalog</p>
+        <h1>Experiments</h1>
+        <p class="lede">
+          {experiments.length} registered protocols. Day-1 posture: active lab
+          (Running + Planned), not an empty blog and not a wall of unsupported Completed claims.
+        </p>
+      </header>
+
+      <table class="exp-table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Status</th>
+            <th scope="col">Evidence</th>
+            <th scope="col">Schedule</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            experiments.map((experiment) => (
+              <tr>
+                <td>
+                  <a href={`/experiments/${experiment.id}/`}>
+                    Exp-{String(experiment.data.number).padStart(3, '0')}
+                  </a>
+                </td>
+                <td>
+                  <a href={`/experiments/${experiment.id}/`}>{experiment.data.title}</a>
+                </td>
+                <td>
+                  <span
+                    class={`status status-${experiment.effectiveStatus.toLowerCase()}`}
+                    data-status-manual={experiment.data.status}
+                    data-starts-on={experiment.data.startsOn ? toUtcDay(experiment.data.startsOn) : undefined}
+                  >
+                    {experiment.effectiveStatus}
+                  </span>
+                </td>
+                <td>
+                  <span
+                    class={`evidence evidence-${experiment.data.evidenceLevel.toLowerCase()}`}
+                    title={evidenceLevelMeaning[experiment.data.evidenceLevel]}
+                  >
+                    {experiment.data.evidenceLevel}
+                  </span>
+                </td>
+                <td>
+                  <span class="schedule-hint" data-schedule-hint>
+                    {experiment.scheduleHint ??
+                      (experiment.data.startsOn ? toUtcDay(experiment.data.startsOn) : 'n/a')}
+                  </span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          {lab.name} ·
+          <SmartLink href={canonical.about}>George Barbu</SmartLink>
+          /
+          <SmartLink href={canonical.organization}>InfoWebPlus</SmartLink>
+        </p>
+      </div>
+    </footer>
+    <script src="/scripts/status-schedule.js" defer></script>
+  </body>
+</html>

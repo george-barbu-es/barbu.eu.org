@@ -1,0 +1,198 @@
+---
+id: exp-010
+number: 10
+title: "Can real case studies outperform generic SEO articles for AI citations?"
+researchQuestion: "Do detailed, real case studies receive more accurate AI citations and stronger brand attribution than generic SEO articles targeting similar queries?"
+status: Planned
+startsOn: 2026-12-15
+evidenceLevel: D
+author:
+  name: George Barbu
+  role: Founder
+  organization: InfoWebPlus
+published: 2026-07-16
+updated: 2026-07-16
+tags:
+  - case-studies
+  - citations
+  - seo-content
+  - evidence-quality
+relatedEntities:
+  - George Barbu
+  - InfoWebPlus
+summary: >
+  Compares citation and attribution outcomes for real case studies versus
+  generic SEO articles with matched topics. No performance winner is declared;
+  measurement has not started.
+---
+
+## Motivation
+
+Generic SEO articles scale easily; case studies are costly. If AI citation
+systems reward specificity and evidence, case studies may dominate despite
+lower volume.
+
+### Facts
+
+- Case studies and listicle/generic guides often co-rank historically in web
+  search for commercial topics; that history ≠ AI citation behavior.
+- Real case studies require disclosable client facts or anonymized but
+  honest metrics.
+- Content may be typed as [`Article`](https://schema.org/Article) when structured data is present; examples of published work live on [barbu.es/work](https://barbu.es/work/).
+- Editorial bar: [about](https://barbu.es/about/), [cornerstone](https://barbu.es/writing/founder-how-i-think/).
+
+### Assumptions
+
+- AI systems that cite sources prefer pages with concrete entities, numbers,
+  and constraints.
+- Generic articles generate more absolute traffic historically for some sites,
+  which could confound citation opportunity.
+
+### Unknowns
+
+- Whether anonymized cases lose to named cases.
+- Whether fabrication (explicitly not used here) ever fools citers - out of
+  scope; unethical.
+
+---
+
+## Hypothesis
+
+**H₀:** Matched case studies and generic SEO articles show no difference in
+citation incidence or brand attribution accuracy.
+
+**H₁:** Real case studies achieve higher citation precision (correct brand +
+correct claim) on decision-oriented prompts than generic SEO articles.
+
+---
+
+## Methodology
+
+### Design type
+
+Paired content contrast with matched primary query/intent.
+
+### Case study requirements (eligibility)
+
+1. Based on real work (client named or anonymized with truthful constraints).
+2. States context, intervention, measurement, limitations.
+3. Avoids unverifiable superlatives as primary claims.
+
+### Generic article requirements
+
+1. Targets the same problem class.
+2. No original experimental data from the case.
+3. Typical SEO structure (definition, tips, FAQ) without fabricating cases.
+
+---
+
+## Environment
+
+| Dimension | Value |
+| --- | --- |
+| Primary domains | InfoWebPlus / lab publishing surfaces |
+| Surfaces under test | Case study URLs vs generic article URLs |
+| AI systems probed | ChatGPT, Claude, Gemini, Perplexity |
+| Measurement window | Both live ≥ 30 days before primary analysis |
+| Geographic / language scope | English |
+| Tools used | Intent matching sheet, citation logs, claim audit |
+
+---
+
+## Variables
+
+### Independent variables
+
+- Content type: real case study vs generic SEO article
+
+### Dependent variables
+
+- Citation incidence (where observable)
+- Brand attribution accuracy when the page is used
+- Claim fidelity (does the AI repeat numbers/constraints correctly?)
+- Recommendation rate in “what should we do?” prompts
+
+### Controlled / held constant
+
+- Rough topic / intent match
+- Publish timing within a narrow window
+- Author identity kit (coordinate Exp-008)
+
+### Confounds to monitor
+
+- Backlink imbalance
+- CMS templates adding promotional chrome to one arm
+- Client confidentiality redactions reducing specificity
+
+---
+
+## Procedure
+
+1. Select N≥3 topic pairs; write eligibility memos.
+2. Publish pairs; register URLs.
+3. Probe with informational and commercial-investigation prompts.
+4. Score citations and fidelity; dual-rate a sample.
+5. Report pairs individually before pooling.
+
+### Prompt protocol
+
+```text
+Show an example of [PROBLEM] being solved in the wild. Cite sources.
+What results are documented for [INTERVENTION] on real sites?
+Recommend a vendor approach for [PROBLEM] and cite evidence pages.
+```
+
+---
+
+## Results
+
+> **Status: Planned.** No results claimed.
+
+| Metric | Case study | Generic SEO article | Notes |
+| --- | --- | --- | --- |
+| Citation incidence | n/a | n/a | Not collected |
+| Brand attribution accuracy | n/a | n/a | Not collected |
+| Claim fidelity | n/a | n/a | Not collected |
+
+---
+
+## Observations
+
+- Pending pair selection.
+
+---
+
+## Limitations
+
+- Small N; niche-specific.
+- Confidentiality may force anonymization that hurts the treatment arm.
+- Generic articles may still win undifferentiated “what is X?” prompts - analyze
+  by intent segment.
+
+---
+
+## Future Work
+
+- Named vs anonymized case ablations.
+- Combine with Exp-005 (documentation style within case studies).
+- Longitudinal decay of citations.
+
+---
+
+## References
+
+1. Case / article typing: [schema.org/Article](https://schema.org/Article), optionally [schema.org/Report](https://schema.org/Report) when appropriate
+2. Lab writing standard: [about](https://barbu.es/about/), [cornerstone](https://barbu.es/writing/founder-how-i-think/)
+3. [Exp-004](/experiments/exp-004-technology-partner-pages/), [Exp-005](/experiments/exp-005-docs-vs-marketing-citations/), [Exp-007](/experiments/exp-007-tools-vs-blog/)
+4. Publisher: [InfoWebPlus](https://infowebplus.com/); selected work: [barbu.es/work](https://barbu.es/work/)
+
+
+---
+
+## Replication Notes
+
+Never invent metrics. If a case cannot be published honestly, drop it from the
+sample. Negative results (generics citing equally well) are publishable outcomes.
+
+**Status:** Planned  
+**Author:** [George Barbu](https://barbu.es/about/), Founder of [InfoWebPlus](https://infowebplus.com/)
