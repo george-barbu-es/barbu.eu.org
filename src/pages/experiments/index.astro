@@ -1,5 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import GtmBody from '../../components/GtmBody.astro';
+import GtmHead from '../../components/GtmHead.astro';
 import SmartLink from '../../components/SmartLink.astro';
 import { canonical } from '../../data/canonical';
 import { lab } from '../../data/lab';
@@ -25,6 +27,7 @@ const experiments = (await getCollection('experiments'))
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <GtmHead />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Experiments · {lab.name}</title>
     <meta
@@ -34,6 +37,7 @@ const experiments = (await getCollection('experiments'))
     <link rel="stylesheet" href="/styles/lab.css" />
   </head>
   <body>
+    <GtmBody />
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="wrap header-inner">
